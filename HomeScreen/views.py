@@ -7,9 +7,19 @@ import math
 import random
 import re
 import requests
+from functools import lru_cache
+from datetime import datetime, timedelta
 from .models import MapMarker
 
 import google.generativeai as genai
+
+# Try to import SerpAPI (optional dependency)
+try:
+    from serpapi import GoogleSearch
+    SERPAPI_AVAILABLE = True
+except ImportError:
+    GoogleSearch = None
+    SERPAPI_AVAILABLE = False
 
 # Import modular components
 # Task 1: Route Calculation
@@ -30,6 +40,7 @@ from .utils import (
 # API Keys
 GEOAPIFY_API_KEY = '3600fc44d95e4e578b698c35f3edbb7d'
 GEMINI_API_KEY = 'AIzaSyA5gbKv4E25_qaRWvOQqradQ85vX3cu5Xg'
+SERPAPI_KEY = '00a31c33d0bc5e4d27ac6619405b39762c71b00cf04a523fb394c5024d349a20'  # Add your SerpAPI key here if available
 
 # Configure Gemini
 genai.configure(api_key=GEMINI_API_KEY)
@@ -709,7 +720,7 @@ def execute_journey_plan(intent):
 
 def search_places_serpapi(query, lat, lon, limit=5):
     """Search for places using SerpAPI Google Maps engine"""
-    if not GoogleSearch:
+    if not SERPAPI_AVAILABLE or not GoogleSearch:
         print("SerpAPI not installed")
         return []
         
@@ -745,7 +756,7 @@ def search_places_serpapi(query, lat, lon, limit=5):
 
 def get_place_details_serpapi(place_name):
     """Get details for a specific place using SerpAPI"""
-    if not GoogleSearch:
+    if not SERPAPI_AVAILABLE or not GoogleSearch:
         return None
         
     try:

@@ -1,6 +1,7 @@
-from django.urls import path ,include
-from . import views 
-import debug_toolbar
+from django.conf import settings
+from django.urls import path
+
+from . import views
 
 urlpatterns = [
     path('Welcome/',views.Welcome),
@@ -14,5 +15,10 @@ urlpatterns = [
     path('api/chat/', views.chat, name='chat'),
     path('api/calculate-route/', views.calculate_route, name='calculate_route'),
     path('api/plan-journey/', views.plan_journey, name='plan_journey'),
-    path('__debug__/',include(debug_toolbar.urls)),
 ]
+
+if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
+    from django.urls import include
+    import debug_toolbar
+
+    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
