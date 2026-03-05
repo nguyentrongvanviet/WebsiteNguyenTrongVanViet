@@ -42,8 +42,10 @@ Windows (PowerShell):
 - `python manage.py migrate`
 
 Windows (cmd):
-- `set DATABASE_URL=<your database url>`
+- `set "DATABASE_URL=<your database url>"`
 - `python manage.py migrate`
+
+Note: many Postgres URLs include `&` parameters (e.g. `...sslmode=require&...`). In `cmd`, use the quoted form above (or escape `&` as `^&`) so it doesn’t get treated as a command separator.
 
 ## 5) Deploy
 

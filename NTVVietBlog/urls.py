@@ -20,7 +20,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('HomeScreen/',include('HomeScreen.urls')),
+    path('', include('HomeScreen.urls')),
 ]
 
 if settings.DEBUG and "debug_toolbar" in settings.INSTALLED_APPS:
